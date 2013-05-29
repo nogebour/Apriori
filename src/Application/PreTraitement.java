@@ -12,9 +12,9 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class PreTraitement {
-	String path1 = "articles.100p.txt"; //Liste de mots
-	String path2 = "mots.lst";//Articles
-	String path3Part1 = "transa";
+	String path1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
+	String path2 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\mots.lst";//Articles
+	String path3Part1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa";
 	String path3Part3 = ".txt";
 	String[] attributs;
 	HashMap<String, Integer> motsCles;
