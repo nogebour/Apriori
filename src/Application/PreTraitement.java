@@ -12,8 +12,10 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class PreTraitement {
-	String path1 = "articles.10p.txt"; //Liste de mots
-	String path2 = "mots.lst"; //Articles
+	String path1 = "articles.100p.txt"; //Liste de mots
+	String path2 = "mots.lst";//Articles
+	String path3Part1 = "transa";
+	String path3Part3 = ".txt";
 	String[] attributs;
 	HashMap<String, Integer> motsCles;
 	int compteurMotsCles;
@@ -65,7 +67,8 @@ public class PreTraitement {
 		InputStreamReader ipsr=new InputStreamReader(ips);
 		BufferedReader br=new BufferedReader(ipsr);
 		//Sortie
-		FileWriter fw = new FileWriter ("transa.txt");
+		int compteurFichierSortie = 0;
+		FileWriter fw = new FileWriter (this.path3Part1+compteurFichierSortie+this.path3Part3);
 		BufferedWriter bw = new BufferedWriter (fw);
 		PrintWriter fichierSortie = new PrintWriter (bw);
 		//Création HashMap pour retrouver plus facilement les mots clés
@@ -76,6 +79,14 @@ public class PreTraitement {
 		//Lecture ligne par ligne des articles
 		while ((ligne=br.readLine())!=null)
 		{
+			if(((this.compteurArticle % 400) == 0) && (this.compteurArticle >0))
+			{
+				bw.close();
+				compteurFichierSortie++;
+				fw = new FileWriter (this.path3Part1+compteurFichierSortie+this.path3Part3);
+				bw = new BufferedWriter (fw);
+				fichierSortie = new PrintWriter (bw);
+			}
 			int[] transaction = new int[this.compteurMotsCles];
 			for(int i = 0; i<transaction.length; i++)
 			{
@@ -90,7 +101,9 @@ public class PreTraitement {
 				}
 			}
 			fichierSortie.println(this.sortieFichier(transaction));
+			this.compteurArticle ++;
 		}
+		bw.close();
 		br.close();
 	}
 
