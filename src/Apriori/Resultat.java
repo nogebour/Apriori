@@ -18,7 +18,7 @@ public class Resultat implements Serializable {
 		 */
 		private static final long serialVersionUID = -1555911656755045508L;
 		private String[] attributs;
-		private float indice;
+		private double indice;
 		
 		public String[] getAttributs() {
 			return attributs;
@@ -26,13 +26,13 @@ public class Resultat implements Serializable {
 		public void setAttributs(String[] attributs) {
 			this.attributs = attributs;
 		}
-		public float getIndice() {
+		public double getIndice() {
 			return indice;
 		}
 		public void setIndice(float indice) {
 			this.indice = indice;
 		}
-		public Doublet(String[] attributs, float indice) {
+		public Doublet(String[] attributs, double indice) {
 			super();
 			this.attributs = attributs;
 			this.indice = indice;
@@ -49,9 +49,9 @@ public class Resultat implements Serializable {
 		results = new Vector<>(); // Attention JDK 7
 	}
 	
-	public void addResults(String argument, int confidence)
+	public void addResults(String argument, double d)
 	{
-		results.add(new Doublet(argument.split("\\s+"), confidence));
+		results.add(new Doublet(argument.split("\\s+"), d));
 	}
 
 	@Override

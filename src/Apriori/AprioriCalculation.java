@@ -20,22 +20,13 @@ import java.io.*;
 import java.util.*;
 import Application.*;
 
-//public class Apriori {
-//
-//    public static void main(String[] args) {
-//    	//Ajout pour MLBD
-//    	PreTraitement action = new PreTraitement();
-//    	try {
-//			action.run();
-//			//Code original
-//	        AprioriCalculation ap = new AprioriCalculation();
-//	        ap.aprioriProcess();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//    	
-//    }
-//}
+/*
+ * On modifie la classe et on entoure de l'éxécution d'Apriori de notre classe de Resultat
+ * pour la sérialisation
+ * 
+ * On fera la sérialisation après
+ */
+
 /******************************************************************************
  * Class Name   : AprioriCalculation
  * Purpose      : generate Apriori itemsets
@@ -43,21 +34,40 @@ import Application.*;
 public class AprioriCalculation
 {
     Vector<String> candidates=new Vector<String>(); //the current candidates
-    String configFile="config.txt"; //configuration file
-    String transaFile="transa.txt"; //transaction file
+    //configuration file
+    String configFile="config.txt"; 
+    //transaction file
+    String transaFile="C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa0.txt";
     String outputFile="apriori-output.txt";//output file
     int numItems; //number of items per transaction
     int numTransactions; //number of transactions
     double minSup; //minimum support for a frequent itemset
     String oneVal[]; //array of value per column that will be treated as a '1'
     String itemSep = " "; //the separator value for items in the database
+    Resultat res;
 
+  //MLBD    
+    public void execution() throws IOException
+    {
+    	//Création classe pour résultat
+        this.res = new Resultat();
+    	aprioriProcess();
+    	//TODO Requete au main pour Sérialisation
+        //TODO Sérialisation
+        FileOutputStream fos = new FileOutputStream("res.serial");
+        ObjectOutputStream oos= new ObjectOutputStream(fos);
+        //System.out.println(res);
+        oos.writeObject(res);
+        oos.flush();
+    }
+    
     /************************************************************************
      * Method Name  : aprioriProcess
      * Purpose      : Generate the apriori itemsets
      * Parameters   : None
      * Return       : None
      *************************************************************************/
+
     public void aprioriProcess()
     {
         Date d; //date object for timing purposes
@@ -65,7 +75,7 @@ public class AprioriCalculation
         int itemsetNumber=0; //the current itemset being looked at
         //get config
         getConfig();
-
+                
         System.out.println("Apriori algorithm has started.\n");
 
         //start timer
@@ -350,8 +360,6 @@ public class AprioriCalculation
                     }
 
                 }
-                //MLBD
-                //Création classe pour résultat
                 for(int i=0; i<candidates.size(); i++)
                 {
                     //  System.out.println("Candidate: " + candidates.get(c) + " with count: " + count + " % is: " + (count/(double)numItems));
@@ -360,17 +368,16 @@ public class AprioriCalculation
                     {
                         frequentCandidates.add(candidates.get(i));
                         //put the frequent itemset into the output file
-                        System.out.println("Candidats :"+candidates.get(i));
+                        
+                        //System.out.println("Candidats :"+candidates.get(i));
                         //MLBD
-                        //TODO Ajout résultat pour sérialisation
+                        //Ajout résultat pour sérialisation
+                        this.res.addResults(candidates.get(i), count[i]/(double)numTransactions);
                         file_out.write(candidates.get(i) + "," + count[i]/(double)numTransactions + "\n");
                     }
                 }
                 file_out.write("-\n");
                 file_out.close();
-                //MLBD
-                //TODO Requete au main pour Sérialisation
-                //TODO Sérialisation
         }
         //if error at all in this process, catch it and print the error messate
         catch(IOException e)
