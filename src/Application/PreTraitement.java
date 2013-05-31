@@ -21,18 +21,22 @@ public class PreTraitement {
 	int compteurMotsCles;
 	int compteurArticle;
 	
-	public PreTraitement()
+	public PreTraitement(String input, String mots, String inputApriori)
 	{
+		this.path1 = input;
+		this.path2 = mots;
+		this.path3Part1 = inputApriori;
 		this.compteurArticle = 0;
 		this.compteurMotsCles = 0;
 		attributs = new String[100];
 		this.motsCles = new HashMap<String, Integer>();
 	}
 	
-	public void run() throws IOException
+	public int run() throws IOException
 	{
 		parserMotsCles();
-		parserArticle();
+		return parserArticle();
+		
 	}
 	
 	private void parserMotsCles() throws IOException
@@ -59,7 +63,7 @@ public class PreTraitement {
 			br.close();
 	}
 	//TODO Problèmes parsing -> pas assez d'article dans le fichier final, en mettre deux ?
-	private void parserArticle() throws IOException
+	private int parserArticle() throws IOException
 	{
 		String ligne;
 		//Article
@@ -105,6 +109,7 @@ public class PreTraitement {
 		}
 		bw.close();
 		br.close();
+		return compteurFichierSortie;
 	}
 
 	private String sortieFichier(int[] transaction) {

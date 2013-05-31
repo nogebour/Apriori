@@ -37,24 +37,39 @@ public class AprioriCalculation
     //configuration file
     String configFile="config.txt"; 
     //transaction file
-    String transaFile="C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa0.txt";
+    String transaFile="transa.txt";
     String outputFile="apriori-output.txt";//output file
     int numItems; //number of items per transaction
     int numTransactions; //number of transactions
     double minSup; //minimum support for a frequent itemset
     String oneVal[]; //array of value per column that will be treated as a '1'
     String itemSep = " "; //the separator value for items in the database
+    
+    //Ajout MLBD
     Resultat res;
+    int nbreTransactionFichier;
+    String outputSerialization;
+    
 
-  //MLBD    
-    public void execution() throws IOException
+    //MLBD
+    public AprioriCalculation(String inputFile, String outputFile, int nbreMots, int minsup)
+    {
+    	this.transaFile = inputFile;
+    	this.outputSerialization = outputFile;
+    	this.nbreTransactionFichier = this.compteEntree();
+    }
+    private int compteEntree() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	public void execution() throws IOException
     {
     	//Création classe pour résultat
         this.res = new Resultat();
     	aprioriProcess();
     	//TODO Requete au main pour Sérialisation
         //TODO Sérialisation
-        FileOutputStream fos = new FileOutputStream("res.serial");
+        FileOutputStream fos = new FileOutputStream(this.outputSerialization);
         ObjectOutputStream oos= new ObjectOutputStream(fos);
         //System.out.println(res);
         oos.writeObject(res);
