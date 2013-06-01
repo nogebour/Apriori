@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class PreTraitement {
+	private static final int TRANSACTION_PER_FILE = 1000;
 	String path1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
 	String path2 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\mots.lst";//Articles
 	String path3Part1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa";
@@ -83,7 +84,7 @@ public class PreTraitement {
 		//Lecture ligne par ligne des articles
 		while ((ligne=br.readLine())!=null)
 		{
-			if(((this.compteurArticle % 400) == 0) && (this.compteurArticle >0))
+			if(((this.compteurArticle % PreTraitement.TRANSACTION_PER_FILE) == 0) && (this.compteurArticle >0))
 			{
 				bw.close();
 				compteurFichierSortie++;

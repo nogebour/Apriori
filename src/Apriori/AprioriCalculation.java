@@ -56,14 +56,46 @@ public class AprioriCalculation
     {
     	this.transaFile = inputFile;
     	this.outputSerialization = outputFile;
-    	this.nbreTransactionFichier = this.compteEntree();
+    	try {
+			this.nbreTransactionFichier = this.compteEntree();
+		} catch (IOException e) {
+			System.out.println("Problème lecture liste de mots");
+			e.printStackTrace();
+		}
+    	//Génération fichier config.txt
+    	try {
+			this.generationConfig(nbreMots, minsup);
+		} catch (IOException e) {
+			System.out.println("Problème génération du fichier de configuration");
+			e.printStackTrace();
+		}
     }
-    private int compteEntree() {
-		// TODO Auto-generated method stub
-		return 0;
+    private void generationConfig(int nbreMots, int minsup) throws IOException {
+		FileWriter fw = new FileWriter (this.configFile);
+		BufferedWriter bw = new BufferedWriter (fw);
+		PrintWriter fichierSortie = new PrintWriter (bw);
+		fichierSortie.println(nbreMots);
+		fichierSortie.println(this.nbreTransactionFichier);
+		fichierSortie.println(minsup);
+		fichierSortie.println("42");
+		bw.close();
+	}
+    private int compteEntree() throws IOException {
+		int res = 0;
+		String ligne = "";
+		InputStream ips=new FileInputStream(this.transaFile); 
+		InputStreamReader ipsr=new InputStreamReader(ips);
+		BufferedReader br=new BufferedReader(ipsr);
+		while ((ligne=br.readLine())!=null){
+			res++;
+		}
+		br.close();
+		return res;
 	}
 	public void execution() throws IOException
     {
+		
+		
     	//Création classe pour résultat
         this.res = new Resultat();
     	aprioriProcess();
@@ -91,7 +123,7 @@ public class AprioriCalculation
         //get config
         getConfig();
                 
-        System.out.println("Apriori algorithm has started.\n");
+        System.out.println("Apriori algorithm has started.");
 
         //start timer
         d = new Date();
@@ -110,8 +142,8 @@ public class AprioriCalculation
             calculateFrequentItemsets(itemsetNumber);
             if(candidates.size()!=0)
             {
-                System.out.println("Frequent " + itemsetNumber + "-itemsets");
-                System.out.println(candidates);
+                //System.out.println("Frequent " + itemsetNumber + "-itemsets");
+                //System.out.println(candidates);
             }
         //if there are <=1 frequent items, then its the end. This prevents reading through the database again. When there is only one frequent itemset.
         }while(candidates.size()>1);
@@ -163,40 +195,11 @@ public class AprioriCalculation
         String input="";
         //ask if want to change the config
         System.out.println("Default Configuration: ");
-        System.out.println("\tRegular transaction file with '" + itemSep + "' item separator.");
+        //System.out.println("\tRegular transaction file with '" + itemSep + "' item separator.");
         System.out.println("\tConfig File: " + configFile);
         System.out.println("\tTransa File: " + transaFile);
-        System.out.println("\tOutput File: " + outputFile);
-        System.out.println("\nPress 'C' to change the item separator, configuration file and transaction files");
-        System.out.print("or any other key to continue.  ");
-        input=getInput();
+        System.out.println("\tSerialization File: " + this.outputSerialization);
 
-        if(input.compareToIgnoreCase("c")==0)
-        {
-            System.out.print("Enter new transaction filename (return for '"+transaFile+"'): ");
-            input=getInput();
-            if(input.compareToIgnoreCase("")!=0)
-                transaFile=input;
-
-            System.out.print("Enter new configuration filename (return for '"+configFile+"'): ");
-            input=getInput();
-            if(input.compareToIgnoreCase("")!=0)
-                configFile=input;
-
-            System.out.print("Enter new output filename (return for '"+outputFile+"'): ");
-            input=getInput();
-            if(input.compareToIgnoreCase("")!=0)
-                outputFile=input;
-
-            System.out.println("Filenames changed");
-
-            System.out.print("Enter the separating character(s) for items (return for '"+itemSep+"'): ");
-            input=getInput();
-            if(input.compareToIgnoreCase("")!=0)
-                itemSep=input;
-
-
-        }
 
         try
         {
@@ -212,25 +215,16 @@ public class AprioriCalculation
              minSup=(Double.valueOf(data_in.readLine()).doubleValue());
 
              //output config info to the user
-             System.out.print("\nInput configuration: "+numItems+" items, "+numTransactions+" transactions, ");
+             System.out.print("Input configuration: "+numItems+" items, "+numTransactions+" transactions, ");
              System.out.println("minsup = "+minSup+"%");
-             System.out.println();
+             //System.out.println();
              minSup/=100.0;
 
             oneVal = new String[numItems];
-            System.out.print("Enter 'y' to change the value each row recognizes as a '1':");
-            if(getInput().compareToIgnoreCase("y")==0)
+            for(int i=0; i<oneVal.length; i++)
             {
-                for(int i=0; i<oneVal.length; i++)
-                {
-                    System.out.print("Enter value for column #" + (i+1) + ": ");
-                    oneVal[i] = getInput();
-                }
+            	oneVal[i]="1";
             }
-            else
-                for(int i=0; i<oneVal.length; i++)
-                    oneVal[i]="1";
-
             //create the output file
             fw= new FileWriter(outputFile);
             file_out = new BufferedWriter(fw);

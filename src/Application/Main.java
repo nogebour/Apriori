@@ -26,7 +26,7 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i<m.nbreFichiersTransa; i++)
+		for (int i = 0; i<=m.nbreFichiersTransa; i++)
 		{
 			//Calcul des itemsets
 			AprioriCalculation ap = new AprioriCalculation(path3+i+".txt",
@@ -41,11 +41,11 @@ public class Main {
 		}
 
 		//Mise en commun
-		Decision d = new Decision();
+		Decision d = new Decision(path4+"Serialization", m.nbreFichiersTransa);
 		try {
 			d.deserialization();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Problème fichier ou lecture ou déserialization");
 			e.printStackTrace();
 		}
 	}
