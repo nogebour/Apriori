@@ -18,7 +18,6 @@
 package Apriori;
 import java.io.*;
 import java.util.*;
-import Application.*;
 
 /*
  * On modifie la classe et on entoure de l'éxécution d'Apriori de notre classe de Resultat
@@ -52,6 +51,13 @@ public class AprioriCalculation
     
 
     //MLBD
+    /**
+     * Création de l'algorithme Apriori
+     * @param inputFile String chemin vers les fichiers d'input
+     * @param outputFile String Chemin vers les fichiers de serialization
+     * @param nbreMots int nombre de mots-clés et donc d'item dans une transaction
+     * @param minsup int minsup utilisé dans l'algorithme
+     */
     public AprioriCalculation(String inputFile, String outputFile, int nbreMots, int minsup)
     {
     	this.transaFile = inputFile;
@@ -70,6 +76,13 @@ public class AprioriCalculation
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * Génération du fichier de configuration
+     * @param nbreMots Nombre d'item dans une transaction
+     * @param minsup int minimum support utilisé dans l'algorithme
+     * @throws IOException En cas de problème das l'écriture
+     */
     private void generationConfig(int nbreMots, int minsup) throws IOException {
 		FileWriter fw = new FileWriter (this.configFile);
 		BufferedWriter bw = new BufferedWriter (fw);
@@ -80,32 +93,39 @@ public class AprioriCalculation
 		fichierSortie.println("42");
 		bw.close();
 	}
+    
+    /**
+     * Compte le nombre de tranactions dans le fichier
+     * @return le nombre de transaction dans le fichier
+     * @throws IOException En cas de problème de lecture
+     */
     private int compteEntree() throws IOException {
 		int res = 0;
-		String ligne = "";
 		InputStream ips=new FileInputStream(this.transaFile); 
 		InputStreamReader ipsr=new InputStreamReader(ips);
 		BufferedReader br=new BufferedReader(ipsr);
-		while ((ligne=br.readLine())!=null){
+		while ((br.readLine())!=null){
 			res++;
 		}
 		br.close();
 		return res;
 	}
+    
+    /**
+     * Fonction lançant l'exécution de l'algorithme
+     * @throws IOException En cas de problèmes avec les fichiers
+     */
 	public void execution() throws IOException
     {
-		
-		
     	//Création classe pour résultat
-        this.res = new Resultat();
+        this.res = new Resultat(this.nbreTransactionFichier);
     	aprioriProcess();
-    	//TODO Requete au main pour Sérialisation
-        //TODO Sérialisation
         FileOutputStream fos = new FileOutputStream(this.outputSerialization);
         ObjectOutputStream oos= new ObjectOutputStream(fos);
         //System.out.println(res);
         oos.writeObject(res);
         oos.flush();
+        oos.close();
     }
     
     /************************************************************************
@@ -192,7 +212,6 @@ public class AprioriCalculation
         FileWriter fw;
         BufferedWriter file_out;
 
-        String input="";
         //ask if want to change the config
         System.out.println("Default Configuration: ");
         //System.out.println("\tRegular transaction file with '" + itemSep + "' item separator.");
@@ -232,6 +251,7 @@ public class AprioriCalculation
             file_out.write(numTransactions + "\n");
             file_out.write(numItems + "\n******\n");
             file_out.close();
+            data_in.close();
         }
         //if there is an error, print the message
         catch(IOException e)

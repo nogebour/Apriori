@@ -3,7 +3,6 @@ package Application;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +10,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Noel Nicolas & Fauvet Morgane
+ * Classe faisant la lecture des articles (input de l'application) pour les transformer en transaction (input d'Apriori)
+ */
 public class PreTraitement {
+	/**
+	 * Variable limitant le nombre de transaction par fichier
+	 */
 	private static final int TRANSACTION_PER_FILE = 1000;
+	
 	String path1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
 	String path2 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\mots.lst";//Articles
 	String path3Part1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa";
@@ -22,6 +30,12 @@ public class PreTraitement {
 	int compteurMotsCles;
 	int compteurArticle;
 	
+	/**
+	 * Fonction de création de la classe PreTraitement
+	 * @param input String - Chemin absolu vers le fichier en input
+	 * @param mots String - Chemin absolu vers la liste de mots clé
+	 * @param inputApriori String - Chemin absolu vers les fichiers de stockage des transaction (On ajoutera le numéro du fichier et le suffixe à ce String 
+	 */
 	public PreTraitement(String input, String mots, String inputApriori)
 	{
 		this.path1 = input;
@@ -33,6 +47,11 @@ public class PreTraitement {
 		this.motsCles = new HashMap<String, Integer>();
 	}
 	
+	/**
+	 * Parse les mots-clés et crée les fichiers d'input
+	 * @return le nombre de fichiers d'input crée
+	 * @throws IOException En cas de problème d'ouverture, de fermeture ou de lecture
+	 */
 	public int run() throws IOException
 	{
 		parserMotsCles();
@@ -40,6 +59,10 @@ public class PreTraitement {
 		
 	}
 	
+	/**
+	 * Traite le fichier de mots-clés et remplit le tableau d'attribut avec
+	 * @throws IOException
+	 */
 	private void parserMotsCles() throws IOException
 	{
 		String ligne = "";
@@ -63,7 +86,13 @@ public class PreTraitement {
 			}
 			br.close();
 	}
+	
 	//TODO Problèmes parsing -> pas assez d'article dans le fichier final, en mettre deux ?
+	/**
+	 * Parse le fichier d'input et crée les fichiers de transaction à la destination donné
+	 * @return nombre de fichier crée
+	 * @throws IOException En cas de problèmes de lecture, d'écriture, ou d'ouverture de fichier
+	 */
 	private int parserArticle() throws IOException
 	{
 		String ligne;
@@ -113,6 +142,11 @@ public class PreTraitement {
 		return compteurFichierSortie;
 	}
 
+	/**
+	 * Cré le string représentant une trasaction et qui sera écrite dans un fichier de transaction
+	 * @param transaction
+	 * @return la chaine à écrire dans une fichier
+	 */
 	private String sortieFichier(int[] transaction) {
 		String res = "";
 		if(transaction.length > 0)

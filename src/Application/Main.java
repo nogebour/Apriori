@@ -1,6 +1,4 @@
 package Application;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 import Apriori.*;
@@ -34,7 +32,6 @@ public class Main {
 			try {
 				ap.execution();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			m.compteurFichierAnalyse++;
