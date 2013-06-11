@@ -1,22 +1,24 @@
 package Application;
+
 import java.io.IOException;
+import java.util.Vector;
 
 import Apriori.*;
 
 public class Main {
-	public int minSup = 10;
+	public static int minSup = 10;
 	public int compteurFichierAnalyse=0;
 	public int compteurFichierResultat=0;
 	public int nbreFichiersTransa;
-	private static String path1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
-	private static String path2 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\mots.lst";//Articles
-	private static String path3 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa";//Répértoire transaction
-	private static String path4 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\OutputApriori\\"; //Serialization
-	private static String path5 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Resultat\\";//Stockage resultat
+	private static String directory = System.getProperty("user.dir");
+	private static String path1 = directory + "\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
+	private static String path2 = directory + "\\Ressources\\Article\\mots.lst";//Articles
+	private static String path3 = directory + "\\Ressources\\InputApriori\\transa";//Repertoire transaction
+	private static String path4 = directory + "\\Ressources\\OutputApriori\\"; //Serialization
     
 	public static void main(String[] args) {
 		Main m = new Main();
-		//Préparation des articles
+		//Preparation des articles
 		PreTraitement action = new PreTraitement(path1, path2, path3);
 		try {
 			m.nbreFichiersTransa = action.run();
@@ -24,7 +26,7 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i<=m.nbreFichiersTransa; i++)
+		for (int i = 0; i< m.nbreFichiersTransa; i++)
 		{
 			//Calcul des itemsets
 			AprioriCalculation ap = new AprioriCalculation(path3+i+".txt",
@@ -38,11 +40,13 @@ public class Main {
 		}
 
 		//Mise en commun
-		Decision d = new Decision(path4+"Serialization", m.nbreFichiersTransa);
+		Decision d = new Decision(path4+"Serialization", m.nbreFichiersTransa, m.minSup);
 		try {
-			d.deserialization();
+			Resultat res = d.traitementResultat();
+			// Affichage :
+			System.out.println(res.toString(action.motsCles));
 		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("Problème fichier ou lecture ou déserialization");
+			System.out.println("Probleme fichier, lecture ou deserialization");
 			e.printStackTrace();
 		}
 	}

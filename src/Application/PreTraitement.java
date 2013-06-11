@@ -11,22 +11,23 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 /**
- * 
+ * Classe faisant la lecture des articles (input de l'application) 
+ * pour les transformer en transaction (input d'Apriori)
  * @author Noel Nicolas & Fauvet Morgane
- * Classe faisant la lecture des articles (input de l'application) pour les transformer en transaction (input d'Apriori)
  */
 public class PreTraitement {
 	/**
 	 * Variable limitant le nombre de transaction par fichier
 	 */
 	private static final int TRANSACTION_PER_FILE = 1000;
-	
-	String path1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
-	String path2 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\Article\\mots.lst";//Articles
-	String path3Part1 = "C:\\Users\\Noel_Nicolas\\Documents\\Cours\\MLBD\\Apriori\\Ressources\\InputApriori\\transa";
+
+	String directory = System.getProperty("user.dir");
+	String path1 = directory + "\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
+	String path2 = directory +  "\\Ressources\\Article\\mots.lst"; //Articles
+	String path3Part1 = directory + "\\Ressources\\InputApriori\\transa";
 	String path3Part3 = ".txt";
 	String[] attributs;
-	HashMap<String, Integer> motsCles;
+	public HashMap<String, Integer> motsCles;
 	int compteurMotsCles;
 	int compteurArticle;
 	
@@ -56,11 +57,10 @@ public class PreTraitement {
 	{
 		parserMotsCles();
 		return parserArticle();
-		
 	}
 	
 	/**
-	 * Traite le fichier de mots-clés et remplit le tableau d'attribut avec
+	 * Traite le fichier de mots-cles et remplit le tableau d'attribut avec
 	 * @throws IOException
 	 */
 	private void parserMotsCles() throws IOException
@@ -101,7 +101,7 @@ public class PreTraitement {
 		InputStreamReader ipsr=new InputStreamReader(ips);
 		BufferedReader br=new BufferedReader(ipsr);
 		//Sortie
-		int compteurFichierSortie = 0;
+		int compteurFichierSortie = 1;
 		FileWriter fw = new FileWriter (this.path3Part1+compteurFichierSortie+this.path3Part3);
 		BufferedWriter bw = new BufferedWriter (fw);
 		PrintWriter fichierSortie = new PrintWriter (bw);
