@@ -78,7 +78,6 @@ public class Decision {
 				}
 				else
 				{
-					System.out.println(d2.toString());
 					int rang = itemsets.indexOf(d2);
 					// et on modifie la valeur dans itemset
 					Doublet nouveau = new Doublet(d2.getAttributs(), d2.getIndice()+ d1.getIndice()*r[i].getNbreTransa());
@@ -92,7 +91,13 @@ public class Decision {
 		return res;
 	}
 	
-	
+	/**
+	 * effectue la pondération des indices par rapport au nombre de transactions total 
+	 * et élimine les doublets non nécessaire
+	 * @param itemsets
+	 * @param nbreTransaTot
+	 * @return
+	 */
 	private Resultat traitInt(Vector<Doublet> itemsets, int nbreTransaTot)
 	{
 		Resultat res = new Resultat(itemsets.capacity());
@@ -110,7 +115,8 @@ public class Decision {
 	}
 	
 	/**
-	 * 
+	 * Indique si un doublet est présent dans un Vector de doublet 
+	 * (en se basant sur les attributs uniquement et non sur l'indice)
 	 * @param d1
 	 * @param doublets
 	 * @return

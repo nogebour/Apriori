@@ -95,7 +95,7 @@ public class AprioriCalculation
 	}
     
     /**
-     * Compte le nombre de tranactions dans le fichier
+     * Compte le nombre de transactions dans le fichier
      * @return le nombre de transaction dans le fichier
      * @throws IOException En cas de problème de lecture
      */

@@ -101,7 +101,7 @@ public class PreTraitement {
 		InputStreamReader ipsr=new InputStreamReader(ips);
 		BufferedReader br=new BufferedReader(ipsr);
 		//Sortie
-		int compteurFichierSortie = 1;
+		int compteurFichierSortie = 0;
 		FileWriter fw = new FileWriter (this.path3Part1+compteurFichierSortie+this.path3Part3);
 		BufferedWriter bw = new BufferedWriter (fw);
 		PrintWriter fichierSortie = new PrintWriter (bw);
@@ -139,7 +139,7 @@ public class PreTraitement {
 		}
 		bw.close();
 		br.close();
-		return compteurFichierSortie;
+		return compteurFichierSortie+1;
 	}
 
 	/**

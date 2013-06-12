@@ -107,7 +107,7 @@ public class Doublet implements Serializable
 		String res = "";
 		res += "Doublet [attributs= [" ;
 		for(int att : attributs)
-			res+=  correspondance(att, motsCles) + " , "; 
+			res+=  correspondance(att, motsCles) + " "; 
 		res+= "], indice=" + indice + "]";
 		return res;
 	}
