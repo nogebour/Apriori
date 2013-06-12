@@ -87,6 +87,7 @@ public class Decision {
 			}
 		}
 		Resultat res = traitInt(itemsets, nbreTransaTotal);
+		System.out.print("Nombre d'articles dans les ficheirs d'entrée : ");
 		System.out.println(nbreTransaTotal);
 		return res;
 	}
