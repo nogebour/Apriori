@@ -10,12 +10,28 @@ public class Main {
 	public int compteurFichierResultat=0;
 	public int nbreFichiersTransa;
 	private static String directory = System.getProperty("user.dir");
-	private static String path1 = directory + "\\Ressources\\Article\\articles.100p.txt"; //Liste de mots
+	private static String path1 = directory + "\\Ressources\\Article\\articles.10p.txt"; //Liste de mots
 	private static String path2 = directory + "\\Ressources\\Article\\mots.lst";//Articles
 	private static String path3 = directory + "\\Ressources\\InputApriori\\transa";//Repertoire transaction
 	private static String path4 = directory + "\\Ressources\\OutputApriori\\"; //Serialization
     
 	public static void main(String[] args) {
+		System.out.println("OS de la machine :"+System.getProperty("os.name"));
+		if(!System.getProperty("os.name").toLowerCase().contains("windows"));
+		{
+			path1 = directory + "/Ressources/Article/articles.100p.txt"; //Liste de mots
+			path2 = directory + "/Ressources/Article/mots.lst";//Articles
+			path3 = directory + "/Ressources/InputApriori/transa";//Repertoire transaction
+			path4 = directory + "/Ressources/OutputApriori/"; //Serialization
+		}
+		//minsup Rectification 
+		if(minSup <= 5){
+			System.out.println("Veuillez choisir un minSup supérieur à 5");
+			return;
+		}else
+		{
+			minSup -= 5;
+		}
 		//start timer
         Date date = new Date();
         long start1 = date.getTime();

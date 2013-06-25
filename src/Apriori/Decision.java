@@ -33,7 +33,7 @@ public class Decision {
 	{
 		this.pathInput = pathInput;
 		this.nbreFichierInput = nbreFichier;
-		this.minSup = ms;
+		this.minSup = ms+5;
 	}
 
 	/**
@@ -87,6 +87,7 @@ public class Decision {
 			}
 		}
 		Resultat res = traitInt(itemsets, nbreTransaTotal);
+		System.out.print("Nombre d'articles dans les ficheirs d'entrée : ");
 		System.out.println(nbreTransaTotal);
 		return res;
 	}
